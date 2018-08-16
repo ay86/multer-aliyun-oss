@@ -1,7 +1,7 @@
 # Multer Storage for AliYun OSS
 
 ### Install
-```js
+```npm
 npm install --save multer-aliyun-oss
 ```
 ### Usage
@@ -13,9 +13,9 @@ const upload = multer({
 	storage:MAO({
 		config:{
 			region: '<region>',
-	    accessKeyId: '<accessKeyId>',
-	    accessKeySecret: '<accessKeySecret>',
-	    bucket: '<bucket>'
+			accessKeyId: '<accessKeyId>',
+			accessKeySecret: '<accessKeySecret>',
+			bucket: '<bucket>'
 		}
 	})
 });
