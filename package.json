@@ -1,0 +1,13 @@
+{
+  "name": "multer-aliyun-oss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "AngusYoung",
+  "license": "ISC",
+  "dependencies": {
+    "ali-oss": "^6.0.1"
+  },
+  "devDependencies": {}
+}
