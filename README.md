@@ -1,5 +1,5 @@
 # Multer Storage for AliYun OSS
-
+Dependencies [@ali-oss](https://github.com/ali-sdk/ali-oss)
 ### Install
 ```npm
 npm install --save multer-aliyun-oss
@@ -20,3 +20,7 @@ const upload = multer({
     })
 });
 ```
+### Author
+&copy; AngusYoung
+
+<angusyoung@mrxcool.com>

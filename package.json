@@ -1,11 +1,21 @@
 {
   "name": "multer-aliyun-oss",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Multer Storage for AliYun OSS",
   "main": "index.js",
   "scripts": {},
   "author": "AngusYoung",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ay86/multer-aliyun-oss.git"
+  },
+  "keywords": [
+    "multer",
+    "storage",
+    "aliyun",
+    "oss"
+  ],
   "dependencies": {
     "ali-oss": "^6.0.1"
   },
