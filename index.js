@@ -8,9 +8,12 @@ const crypto = require('crypto');
 
 const getFilename = (req, ossPath, file, cb) => {
     crypto.pseudoRandomBytes(16, (err, raw) => {
-        cb(err, err ? undefined :
-            ossPath + '/' + (raw.toString('hex') + file.originalname.substr(file.originalname.lastIndexOf('.')))
-        );
+        ext = '';
+        if (file.originalname.indexOf(".") > -1) {
+            ext = file.originalname.substr(file.originalname.lastIndexOf('.'));
+        }
+        let name = ossPath + '/' + raw.toString('hex') + ext;
+        cb(err, err ? undefined : name);
     });
 };
 
