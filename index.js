@@ -26,6 +26,7 @@ class AliYunOssStorage {
 			return cb({message: 'oss client undefined'});
 		}
 		this.getFilename(req, file, (err, filename) => {
+			if (err) return cb(err);
 			this.client.putStream(filename, file.stream).then(
 				result => {
 					return cb(null, {
@@ -34,7 +35,6 @@ class AliYunOssStorage {
 					});
 				}
 			).catch(err => {
-				console.log(err);
 				return cb(err);
 			});
 		});
