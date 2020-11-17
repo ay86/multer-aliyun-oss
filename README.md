@@ -15,7 +15,8 @@ const upload = multer({
             region: '<region>',
             accessKeyId: '<accessKeyId>',
             accessKeySecret: '<accessKeySecret>',
-            bucket: '<bucket>'
+            bucket: '<bucket>',
+            path: ''
         }
     })
 });

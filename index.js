@@ -8,7 +8,7 @@ const crypto = require('crypto');
 
 const getFilename = (req, ossPath, file, cb) => {
     crypto.pseudoRandomBytes(16, (err, raw) => {
-        ext = '';
+        let ext = '';
         if (file.originalname.indexOf(".") > -1) {
             ext = file.originalname.substr(file.originalname.lastIndexOf('.'));
         }
@@ -39,14 +39,14 @@ class AliYunOssStorage {
                             return cb(null, {
                                 filename: result.name,
                                 url: result.url,
-                                filesize: (meta && meta.status && meta.res && meta.res.headers) ? meta.res.headers["content-length"] : null
+                                size: (meta && meta.status && meta.res && meta.res.headers) ? meta.res.headers["content-length"] : null
                             });
                         })
                         .catch(e => {
                             return cb(null, {
                                 filename: result.name,
                                 url: result.url,
-                                filesize: null
+                                size: null
                             });
                         })
                 }
