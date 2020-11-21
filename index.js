@@ -64,7 +64,6 @@ class AliYunOssStorage {
                 return this.client.getObjectMeta(name)
             })
             .then(meta => {
-                console.log(meta)
                 size = (meta && meta.status && meta.res && meta.res.headers) ? meta.res.headers["content-length"] : null
                 return cb(null, {
                     destination: url.substr(0, url.lastIndexOf('/')),
