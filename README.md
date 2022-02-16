@@ -1,10 +1,15 @@
 # Multer Storage for AliYun OSS
+
 Dependencies [@ali-oss](https://github.com/ali-sdk/ali-oss)
-### Install
+
+## Install
+
 ```npm
 npm install --save multer-aliyun-oss
 ```
-### Usage
+
+## Usage
+
 ```js
 const multer = require('multer');
 const MAO = require('multer-aliyun-oss');
@@ -16,13 +21,14 @@ const upload = multer({
             accessKeyId: '<accessKeyId>',
             accessKeySecret: '<accessKeySecret>',
             bucket: '<bucket>',
-            path: ''
-        }
+        },
+        // to set path prefix for files, could be string or function
+        destination: ''
     })
 });
 ```
 
-### File information
+## File information
 
 Each file contains the following information:
 
@@ -38,26 +44,19 @@ Key | Description | Note
 `path` | The full path to the uploaded file | `DiskStorage`
 `buffer` | A `Buffer` of the entire file | `MemoryStorage`
 
-### Option
-#### config.path
+## Option
+
+### destination
 
 `String` or `Function`
 
 ```
-// Function ES6 Promise
-path ({ req, file }) {
-    return new Promise((resolve, reject) => {
-        resolve('images')
-    })
-}
-
-// Function ES7 async/await
-async path ({ req, file }) {
-    return 'images'
+// same signature as multer native
+destination (req, file, callback) {
+    callback(null, 'images')
 }
 ```
 
-### Author
-&copy; AngusYoung
+## Author
 
-<angusyoung@mrxcool.com>
+&copy; AngusYoung <angusyoung@mrxcool.com>
