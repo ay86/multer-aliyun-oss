@@ -48,10 +48,11 @@ class AliYunOssStorage {
             })
             .then(result => {
                 const { url, name } = result;
-                const path = name.substr(0, name.lastIndexOf('/'));
+                const lastSlashIndex = name.lastIndexOf('/');
+                const path = name.substr(0, lastSlashIndex);
                 cb(null, {
                     destination: path,
-                    filename: name.substr(name.lastIndexOf('/')),
+                    filename: name.substr(lastSlashIndex + 1),
                     path,
                     size
                 });
