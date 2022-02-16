@@ -8,7 +8,7 @@ const Path = require('path');
 const crypto = require('crypto');
 const OSS = require('ali-oss');
 
-const ERROR_NO_CLIENT = 'oss client undefined';
+const ERROR_NO_CLIENT = new Error('oss client undefined');
 
 // keep same signature as multer native
 function getRandomFilename(req, file, cb) {
@@ -26,7 +26,7 @@ class AliYunOssStorage {
 
     _handleFile(req, file, cb) {
         if (!this.client) {
-            return cb(new Error(ERROR_NO_CLIENT));
+            return cb(ERROR_NO_CLIENT);
         }
 
         const getDestination = promisify(this.getDestination);
@@ -34,21 +34,24 @@ class AliYunOssStorage {
 
         let size = 0;
 
-        file.stream.on('data', chunk => {
-          size += Buffer.byteLength(chunk);
-        });
-
         Promise.all([
             getDestination(req, file),
             getFilename(req, file)
         ])
-            .then(([destination, filename]) => this.client.putStream(`${destination}/${filename}`, file.stream))
+            .then(([destination, filename]) => {
+                // add listener here because if put in upper scope,
+                // the uploaded file will be 0 byte (very weird!).
+                file.stream.on('data', chunk => {
+                    size += Buffer.byteLength(chunk);
+                });
+                return this.client.putStream(`${destination}/${filename}`, file.stream);
+            })
             .then(result => {
                 const { url, name } = result;
-                const path = name.substr(0, url.lastIndexOf('/'));
+                const path = name.substr(0, name.lastIndexOf('/'));
                 cb(null, {
                     destination: path,
-                    filename: name,
+                    filename: name.substr(name.lastIndexOf('/')),
                     path,
                     size
                 });
@@ -59,21 +62,19 @@ class AliYunOssStorage {
 
     _removeFile(req, file, cb) {
         if (!this.client) {
-            return cb(new Error(ERROR_NO_CLIENT));
+            return cb(ERROR_NO_CLIENT);
         }
-        this.client.delete(file.filename).then(
-            result => {
-                return cb(null, result);
-            }
-        ).catch(err => {
-            return cb(err);
-        });
+        this.client
+            .delete(file.filename)
+            .then(result => cb(null, result))
+            .catch(cb);
     }
 }
 
 module.exports = function (opts) {
-    if (typeof opts === 'object' && opts !== null) {
-        return new AliYunOssStorage(opts);
+    // error first
+    if (typeof opts !== 'object' || opts === null) {
+        throw new TypeError('Expected object for argument options');
     }
-    throw new TypeError('Expected object for argument options');
+    return new AliYunOssStorage(opts);
 };
