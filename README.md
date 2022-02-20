@@ -57,6 +57,6 @@ destination (req, file, callback) {
 }
 ```
 
-## Author
+## Contact
 
-&copy; AngusYoung <angusyoung@mrxcool.com>
+<angusyoung@mrxcool.com>
