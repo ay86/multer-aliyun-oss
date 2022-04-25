@@ -54,7 +54,8 @@ class AliYunOssStorage {
                     destination: path,
                     filename: name.substr(lastSlashIndex + 1),
                     path,
-                    size
+                    size,
+                    url
                 });
             })
             .catch(cb);
