@@ -23,8 +23,24 @@ const upload = multer({
             bucket: '<bucket>',
         },
         // to set path prefix for files, could be string or function
-        destination: ''
+        // learn more to see multer document.
+        destination: '',
+        filename: ''
     })
+});
+
+const singleFileUpload = upload.single('yourformdataname');
+singleFileUpload(req, res, function (err) {
+    if (err) {
+      // error handler
+     console.error(err);
+   }
+   else {
+      // success handler
+      // req.file.filename
+      // req.file.originalname
+      res.send('ok');
+   }
 });
 ```
 
@@ -32,17 +48,17 @@ const upload = multer({
 
 Each file contains the following information:
 
-Key | Description | Note
---- | --- | ---
-`fieldname` | Field name specified in the form |
-`originalname` | Name of the file on the user's computer |
-`encoding` | Encoding type of the file |
-`mimetype` | Mime type of the file |
-`size` | Size of the file in bytes |
-`destination` | The folder to which the file has been saved | `DiskStorage`
-`filename` | The name of the file within the `destination` | `DiskStorage`
-`path` | The full path to the uploaded file | `DiskStorage`
-`buffer` | A `Buffer` of the entire file | `MemoryStorage`
+| Key            | Description                                   | Note            |
+|----------------|-----------------------------------------------|-----------------|
+| `fieldname`    | Field name specified in the form              |                 |
+| `originalname` | Name of the file on the user's computer       |                 |
+| `encoding`     | Encoding type of the file                     |                 |
+| `mimetype`     | Mime type of the file                         |                 |
+| `size`         | Size of the file in bytes                     |                 |
+| `destination`  | The folder to which the file has been saved   | `DiskStorage`   |
+| `filename`     | The name of the file within the `destination` | `DiskStorage`   |
+| `path`         | The full path to the uploaded file            | `DiskStorage`   |
+| `buffer`       | A `Buffer` of the entire file                 | `MemoryStorage` |
 
 ## Option
 
