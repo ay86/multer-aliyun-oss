@@ -44,7 +44,12 @@ class AliYunOssStorage {
                 file.stream.on('data', chunk => {
                     size += Buffer.byteLength(chunk);
                 });
-                return this.client.putStream(`${destination}/${filename}`, file.stream);
+
+                const options = {};
+                if (file.mimetype === 'text/plain') {
+                  options.mime = 'text/plain; charset=utf-8'; // force text/plain to have utf-8 charset
+                }
+                return this.client.putStream(`${destination}/${filename}`, file.stream, options);
             })
             .then(result => {
                 const { url, name } = result;
